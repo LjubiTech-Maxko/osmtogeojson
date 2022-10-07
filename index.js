@@ -691,7 +691,7 @@ osmtogeojson = function( data, options, featureCallback ) {
         }
       } // end construct multilinestring for route relations
       if ((typeof rels[i].tags != "undefined") &&
-          (rels[i].tags["type"] == "multipolygon" || rels[i].tags["type"] == "boundary")) {
+          (rels[i].tags["type"] == "multipolygon" || rels[i].tags["type"] == "boundary") || rels[i].tags["type"] == "building") {
         if (!_.isArray(rels[i].members)) {
           if (options.verbose) console.warn('Multipolygon',rels[i].type+'/'+rels[i].id,'ignored because it has no members');
           continue; // ignore relations without members (e.g. returned by an ids_only query)
@@ -707,7 +707,7 @@ osmtogeojson = function( data, options, featureCallback ) {
             // this even works in the following corner case:
             // a multipolygon amenity=xxx with outer line tagged amenity=yyy
             // see https://github.com/tyrasd/osmtogeojson/issues/7
-            if (m.role==="outer" && !has_interesting_tags(wayids[m.ref].tags,rels[i].tags))
+            if (m.role!="inner" && !has_interesting_tags(wayids[m.ref].tags,rels[i].tags))
               wayids[m.ref].is_skippablerelationmember = true;
             if (m.role==="inner" && !has_interesting_tags(wayids[m.ref].tags))
               wayids[m.ref].is_skippablerelationmember = true;
