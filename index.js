@@ -628,7 +628,7 @@ osmtogeojson = function( data, options, featureCallback ) {
           var is_tainted = false;
           // prepare route members
           var members;
-          members = rel.members.filter(function(m) {return m.type === "way";});
+          members = rel.members.filter(function(m) {return m.type === "way" && m.geometry.length > 1;});
           members = members.map(function(m) {
             var way = wayids[m.ref];
             if (way === undefined || way.nodes === undefined) { // check for missing ways
